@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StudentsController extends Controller
 {
@@ -13,7 +14,8 @@ class StudentsController extends Controller
      */
     public function index()
     {
-        //
+        $students = DB::table('students')->get();
+        return view('students.index', compact('students'));
     }
 
     /**
@@ -23,7 +25,7 @@ class StudentsController extends Controller
      */
     public function create()
     {
-        //
+        return view('students.create');
     }
 
     /**
@@ -34,7 +36,17 @@ class StudentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $insert = DB::table('students')->insert([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'created_at' => now()->toDateTimeString(),
+            'updated_at' => now()->toDateTimeString()
+        ]);
+
+        if($insert){
+            return view('students.create')->with('message','Data Inserted Successfully');
+        }
     }
 
     /**
@@ -45,7 +57,12 @@ class StudentsController extends Controller
      */
     public function show($id)
     {
-        //
+        // this query works fine
+        // $student = DB::table('students')->where('id', $id)->first();
+
+        //if the primary key is named `id` then this following query also works
+        $student = DB::table('students')->find($id);
+        return view('students.view', compact('student'));
     }
 
     /**
@@ -56,7 +73,7 @@ class StudentsController extends Controller
      */
     public function edit($id)
     {
-        //
+        echo "Hello from edit";
     }
 
     /**
@@ -68,7 +85,7 @@ class StudentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        echo "Hello from update";
     }
 
     /**
@@ -79,6 +96,6 @@ class StudentsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        echo "Hello from destroy";
     }
 }
