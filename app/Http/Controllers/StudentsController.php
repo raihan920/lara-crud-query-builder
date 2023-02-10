@@ -45,7 +45,9 @@ class StudentsController extends Controller
         ]);
 
         if($insert){
-            return view('students.create')->with('message','Data Inserted Successfully');
+            return redirect()->back()->with(['alert-type'=>'alert-success', 'message'=>"<b>Success!!!</b> Data saved Successfully!"]);
+        }else{
+            return redirect()->back()->with(['alert-type'=>'alert-danger', 'message'=>"<b>Error!!!</b> Something wend data was not saved!"]);
         }
     }
 
@@ -73,7 +75,8 @@ class StudentsController extends Controller
      */
     public function edit($id)
     {
-        echo "Hello from edit";
+        $student = DB::table('students')->find($id);
+        return view('students.edit', compact('student'));
     }
 
     /**
@@ -85,7 +88,19 @@ class StudentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        echo "Hello from update";
+        $updateStatus = DB::table('students')->where('id', $id)->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone_number' => $request->phone_number,
+            'created_at' => now()->toDateTimeString(),
+            'updated_at' => now()->toDateTimeString()
+        ]);
+
+        if($updateStatus){
+            return redirect()->back()->with(['alert-type'=>'alert-success', 'message'=>"<b>Success!!!</b> Data updated Successfully!"]);
+        }else{
+            return redirect()->back()->with(['alert-type'=>'alert-danger', 'message'=>"<b>Error!!!</b> Something wend data was not saved!"]);
+        }
     }
 
     /**
@@ -96,6 +111,11 @@ class StudentsController extends Controller
      */
     public function destroy($id)
     {
-        echo "Hello from destroy";
+        $deleteStatus = DB::table('students')->where('id', $id)->delete();
+        if($deleteStatus){
+            return redirect()->back()->with(['alert-type'=>'alert-success', 'message'=>"<b>Success!!!</b> Data deleted Successfully!"]);
+        }else{
+            return redirect()->back()->with(['alert-type'=>'alert-danger', 'message'=>"<b>Error!!!</b> Something wend data was not saved!"]);
+        }
     }
 }

@@ -25,12 +25,13 @@
             </div>
         @endif
         <div class="col-md-12 col-lg-12">
-            <form method="POST" action="{{ route('students.store') }}" class="needs-validation" novalidate="">
+            <form method="POST" action="{{ route('students.update', $student->id) }}" class="needs-validation" novalidate="">
                 @csrf
+                @method('PUT')
               <div class="row g-3">
                 <div class="col-12">
                   <label for="fullName" class="form-label">Full name</label>
-                  <input type="text" name="name" class="form-control" id="fullName" placeholder="write your full name" value="" required="required">
+                  <input type="text" name="name" class="form-control" id="fullName" placeholder="write your full name" value="{{ $student->name }}" required="required">
                   <div class="invalid-feedback">
                     Your full name should match your birth certificate name.
                   </div>
@@ -38,7 +39,7 @@
 
                 <div class="col-12">
                   <label for="email" class="form-label">Email</label>
-                  <input type="email" name="email" class="form-control" id="email" placeholder="you@example.com" required="required">
+                  <input type="email" name="email" class="form-control" id="email" placeholder="you@example.com" required="required" value="{{ $student->email }}">
                   <div class="invalid-feedback">
                     Please enter a valid email address for shipping updates.
                   </div>
@@ -46,14 +47,14 @@
 
                 <div class="col-12">
                   <label for="phoneNumber" class="form-label">Pnone Number</label>
-                  <input type="text" name="phone_number" class="form-control" id="phoneNumber" placeholder="+880 123465789" required="required">
+                  <input type="text" name="phone_number" class="form-control" id="phoneNumber" placeholder="+880 123465789" value="{{ $student->phone_number }}" required="required">
                   <div class="invalid-feedback">
                     Please enter your shipping address.
                   </div>
                 </div>
               </div>
               <hr>
-              <button class="w-100 btn btn-primary btn-lg" type="submit">Submit Form</button>
+              <button class="w-100 btn btn-primary btn-lg" type="submit">Update Data</button>
             </form>
           </div>
     </div>
